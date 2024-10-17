@@ -21,7 +21,7 @@ export default function App() {
       <View style={styles.buttonContainer}>
       <Button title='Increase' onPress={() => setCount(count+1)}/>
       <Button title='Decrease' onPress={() => {if(count>0) setCount(count-1)}} />
-      <Button title='Reset' onPress={() => setCount(0)} />
+      <Button title='Reset' onPress={() => setCount(0)} color={"red"}/>
       </View>
       
     </View>
