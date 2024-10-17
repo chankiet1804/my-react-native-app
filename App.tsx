@@ -1,40 +1,52 @@
-import { Text, View } from "react-native"
-import HomeScreen from "./components/review/home";
-import DetailScreen from "./components/review/detail";
-import AboutScreen from "./components/review/about";
-import { useFonts } from 'expo-font';
-import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
-import { OPENSANS_REGULAR } from "./utils/const";
 
-import { NavigationContainer } from '@react-navigation/native';
-import 'react-native-gesture-handler';
-import AppNavigation from "./components/navigation/app.navigation";
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useState } from 'react';
+import { Button, StyleSheet, Text, View } from 'react-native';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
-SplashScreen.preventAutoHideAsync();
-const App = () => {
-    const [loaded, error] = useFonts({
-        [OPENSANS_REGULAR]: require('./assets/fonts/OpenSans-Regular.ttf'),
-    });
+export default function App() {
 
-    useEffect(() => {
-        if (loaded || error) {
-            SplashScreen.hideAsync();
-        }
-    }, [loaded, error]);
+  const [name,setName] = useState("Chan Kiet");
 
-    if (!loaded && !error) {
-        return null;
-    }
+  const [obj,setObj] = useState({
+    name : "Kiet",
+    age : 20,
+  });
 
-    return (
-        <SafeAreaView style={{ flex: 1 }}>
-            <NavigationContainer>
-                <AppNavigation />
-            </NavigationContainer>
-        </SafeAreaView>
-    )
+  const [count,setCount] = useState(0);
+
+  return (
+    <View style={styles.container}>
+      
+      <Text style={styles.couterText}> Count = {count}</Text>
+      <View style={styles.buttonContainer}>
+      <Button title='Increase' onPress={() => setCount(count+1)}/>
+      <Button title='Decrease' onPress={() => {if(count>0) setCount(count-1)}} />
+      <Button title='Reset' onPress={() => setCount(0)} />
+      </View>
+      
+    </View>
+    
+  );
 }
 
-export default App;
+// css in js
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  couterText :{
+    fontSize:30,
+    fontWeight:"bold",
+    padding:20,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '100%',
+    paddingHorizontal: 20,
+  },
+
+});
