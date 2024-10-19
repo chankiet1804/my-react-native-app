@@ -1,56 +1,101 @@
 
 import { useState } from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Button, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { FlatList, TextInput } from 'react-native-gesture-handler';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
+
+interface ITodo {
+  id : number;
+  name : string
+}
 
 export default function App() {
 
-  const[students,setStudents] = useState([
-    { id : 1, name : "Andy1", age : 18},
-    { id : 2, name : "Andy2", age : 18},
-    { id : 3, name : "Andy3", age : 19},
-    { id : 4, name : "Andy4", age : 21},
-    { id : 5, name : "Andy5", age : 19},
-    { id : 6, name : "Andy6", age : 18},
-    { id : 7, name : "Andy7", age : 20},
-    { id : 8, name : "Andy8", age : 18},
-    { id : 9, name : "Andy9", age : 21},
-    { id : 10, name : "AndyX", age : 19},
-  ])
+  const[todo,setTodo] = useState("");
+  const[listTodo,setListTodo] = useState<ITodo[]>([]);
+
+  function randomInterger(min:number,max:number){
+    return Math.floor(Math.random()*(max-min+1))+min;
+  }
+
+  const handleAddTodo = () => {
+    if(!todo) return;
+    setListTodo([...listTodo,{id:randomInterger(10000,200000),name:todo}]);
+    setTodo("")
+  }
 
   return (
-    
+    <GestureHandlerRootView style={{ flex: 1 }}>
       <View style={styles.container}>
-        <ScrollView>
-          {students.map(item => {
-            return (
-              <View key={item.id} style={{
-                padding: 15,
-                backgroundColor: "pink",
-                marginBottom: 50
-              }}>
-              <Text style={{
-                fontSize: 20,
-                fontWeight: "bold"
-              }}>{item.name}</Text>
-              </View>
-            )
-          })}
-        </ScrollView>
+        {/* header */}
+        <Text style={styles.header}>TODO APP</Text>
         
+        {/* form */}
+        <View style={styles.body}>
+          <TextInput 
+          value={todo}
+          style={styles.todoInput}
+          onChangeText={(value) => setTodo(value)}
+          
+          /> 
+
+          <Button 
+          title='Add todo'
+          onPress={handleAddTodo}
+          />
+        </View>
+
+        {/* list todo */}
+        <View>
+          <FlatList
+          data={listTodo}
+          keyExtractor={item => item.id + ""}
+          renderItem={(data) =>{
+            return (
+              <Text style={styles.todoItem}>{data.item.name}</Text>
+            )
+          }}
+          />
+          
+        </View>
+
       </View>
-    
+    </GestureHandlerRootView>
     
   );
 }
 
 // css in js
 const styles = StyleSheet.create({
+  header:{
+    fontSize:40,
+    textAlign:"center",
+    backgroundColor: "yellow",
+    paddingHorizontal: 30,
+    fontWeight:"bold"
+  },
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    padding : 20,
-    paddingVertical: 50
+    paddingTop : 70,
   },
+  body:{
+    marginBottom:5
+  },
+  todoInput: {
+    borderBottomWidth: 1,
+    borderColor:"green",
+    padding: 10,
+    margin: 15
+  },
+  todoItem:{
+    fontSize:20,
+    marginBottom:15,
+    padding:20,
+    marginHorizontal:40,
+    borderWidth:1,
+    borderStyle:'dotted'
+  }
   
 });
