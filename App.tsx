@@ -1,52 +1,44 @@
 
 import { useState } from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
-import { TextInput } from 'react-native-gesture-handler';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
+
 
 export default function App() {
 
-  const [name,setName] = useState("");
-
-  const [age,setAge] = useState();
-
-  const [count,setCount] = useState(0);
+  const[students,setStudents] = useState([
+    { id : 1, name : "Andy1", age : 18},
+    { id : 2, name : "Andy2", age : 18},
+    { id : 3, name : "Andy3", age : 19},
+    { id : 4, name : "Andy4", age : 21},
+    { id : 5, name : "Andy5", age : 19},
+    { id : 6, name : "Andy6", age : 18},
+    { id : 7, name : "Andy7", age : 20},
+    { id : 8, name : "Andy8", age : 18},
+    { id : 9, name : "Andy9", age : 21},
+    { id : 10, name : "AndyX", age : 19},
+  ])
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
+    
       <View style={styles.container}>
-        <View>
-          <Text style={styles.textStyle}>My name is : {name}</Text>
-          <TextInput
-              // multiline
-              autoCapitalize='words' // tu doong viet hoa cac ki tu dau trong tu
-              style={styles.input}
-              placeholder="Enter your name"
-              onChangeText={(text) => setName(text)}
-            />
-        </View>
-
-        <View>
-          <Text style={styles.textStyle}>I'm {age} years old</Text>
-          <TextInput
-              style={styles.input}
-              placeholder="Enter your age"
-              onChangeText={(value) => setAge(value)}
-              keyboardType='numeric'
-              maxLength={2}
-            />
-        </View>
-
-        
-        <Text style={styles.couterText}> Count = {count}</Text>
-        <View style={styles.buttonContainer}>
-        <Button title='Increase' onPress={() => setCount(count+1)}/>
-        <Button title='Decrease' onPress={() => {if(count>0) setCount(count-1)}} />
-        <Button title='Reset' onPress={() => setCount(0)} color={"red"}/>
-        </View>
+        <ScrollView>
+          {students.map(item => {
+            return (
+              <View key={item.id} style={{
+                padding: 15,
+                backgroundColor: "pink",
+                marginBottom: 50
+              }}>
+              <Text style={{
+                fontSize: 20,
+                fontWeight: "bold"
+              }}>{item.name}</Text>
+              </View>
+            )
+          })}
+        </ScrollView>
         
       </View>
-    </GestureHandlerRootView>
     
     
   );
@@ -57,35 +49,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    padding : 20,
+    paddingVertical: 50
   },
-  couterText :{
-    fontSize:30,
-    fontWeight:"bold",
-    padding:20,
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    width: '90%',  // Đảm bảo width cụ thể thay vì 100%
-    paddingHorizontal: 20,
-    paddingVertical: 10,  // Thêm padding dọc để đảm bảo đủ khoảng cách
-    borderWidth: 2, // Đảm bảo borderWidth có giá trị
-    borderColor: '#3498db', // Đảm bảo có borderColor
-    borderRadius: 10, // Bo tròn khung
-    backgroundColor: '#ecf0f1', // Màu nền của khung
-  },
-  input: {
-    borderColor: 'green',
-    borderWidth: 1,
-    width: 200,
-    padding: 15,
-  },
-  textStyle: {
-    fontSize: 30,
-    fontWeight:'bold'
-  }
-
-
+  
 });
