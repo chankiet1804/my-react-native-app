@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import { Button, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Button, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { FlatList, TextInput } from 'react-native-gesture-handler';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
@@ -23,6 +23,11 @@ export default function App() {
     if(!todo) return;
     setListTodo([...listTodo,{id:randomInterger(10000,200000),name:todo}]);
     setTodo("")
+  }
+
+  const deleteTodo = (id : number) => {
+    const newTodo = listTodo.filter(item => item.id!==id);
+    setListTodo(newTodo)
   }
 
   return (
@@ -53,7 +58,9 @@ export default function App() {
           keyExtractor={item => item.id + ""}
           renderItem={(data) =>{
             return (
-              <Text style={styles.todoItem}>{data.item.name}</Text>
+              <TouchableOpacity onPress={()=>deleteTodo(data.item.id)}>
+                <Text style={styles.todoItem}>{data.item.name}</Text>
+              </TouchableOpacity>
             )
           }}
           />
@@ -95,7 +102,7 @@ const styles = StyleSheet.create({
     padding:20,
     marginHorizontal:40,
     borderWidth:1,
-    borderStyle:'dotted'
+    
   }
   
 });
