@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import { Button, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, Button, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { FlatList, TextInput } from 'react-native-gesture-handler';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
@@ -20,7 +20,13 @@ export default function App() {
   }
 
   const handleAddTodo = () => {
-    if(!todo) return;
+    if(!todo) {
+      Alert.alert("Lỗi input todo","Todo không thể để trống, mời bạn thử lại",[
+        {
+          text:"Xác nhận"
+        }
+      ])
+      return;}
     setListTodo([...listTodo,{id:randomInterger(10000,200000),name:todo}]);
     setTodo("")
   }
