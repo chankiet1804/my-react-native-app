@@ -1,9 +1,10 @@
 
 import { useState } from 'react';
-import { Alert, Button, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { FlatList, TextInput } from 'react-native-gesture-handler';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
+import EvilIcons from '@expo/vector-icons/EvilIcons';
 
 interface ITodo {
   id : number;
@@ -33,7 +34,7 @@ export default function App() {
 
   const deleteTodo = (id : number) => {
     const newTodo = listTodo.filter(item => item.id!==id);
-    setListTodo(newTodo)
+    setListTodo(newTodo) 
   }
 
   return (
@@ -43,7 +44,7 @@ export default function App() {
         <Text style={styles.header}>TODO APP</Text>
         
         {/* form */}
-        <View style={styles.body}>
+        <View style={styles.form}>
           <TextInput 
           value={todo}
           style={styles.todoInput}
@@ -51,21 +52,28 @@ export default function App() {
           
           /> 
 
-          <Button 
-          title='Add todo'
-          onPress={handleAddTodo}
-          />
+          <TouchableOpacity onPress={handleAddTodo} style={styles.button}>
+            <Text>
+              ADD TODO
+            </Text>
+          </TouchableOpacity>
         </View>
 
         {/* list todo */}
-        <View>
+        <View style={styles.todoList}>
           <FlatList
           data={listTodo}
           keyExtractor={item => item.id + ""}
           renderItem={(data) =>{
             return (
               <TouchableOpacity onPress={()=>deleteTodo(data.item.id)}>
-                <Text style={styles.todoItem}>{data.item.name}</Text>
+                <View style={styles.groupItem}>
+                  <Text style={styles.todoItem}>
+                    {data.item.name}
+                  </Text>
+                  <EvilIcons name="trash" size={26} color="red" />
+                </View>
+                
               </TouchableOpacity>
             )
           }}
@@ -81,34 +89,58 @@ export default function App() {
 
 // css in js
 const styles = StyleSheet.create({
-  header:{
-    fontSize:40,
-    textAlign:"center",
-    backgroundColor: "yellow",
-    paddingHorizontal: 30,
-    fontWeight:"bold"
-  },
   container: {
     flex: 1,
     backgroundColor: '#fff',
     paddingTop : 70,
   },
-  body:{
-    marginBottom:5
+  header:{
+    fontSize:40,
+    textAlign:"center",
+    backgroundColor: "yellow",
+    paddingHorizontal: 30,
+    fontWeight:"bold",
+    marginBottom:20,
+    flex: 0.6
+  }, 
+  form:{
+    marginBottom:5,
+    flexDirection:'row',
+    marginRight:20,
+    flex:1
   },
   todoInput: {
     borderBottomWidth: 1,
+    flex:1,
     borderColor:"green",
     padding: 10,
-    margin: 15
+    margin: 20
   },
-  todoItem:{
+  todoItem: {
     fontSize:20,
-    marginBottom:15,
-    padding:20,
-    marginHorizontal:40,
+  },
+
+  todoList: {
+    flex:7,
+    marginBottom:20
+  },
+
+  button: {
+    backgroundColor: 'cyan',
+    padding: 5,
+    borderRadius: 5,
+    marginLeft:5,
+    marginVertical:20,
+    justifyContent:'center'
+  },
+
+  groupItem: {
+    justifyContent:'space-between',
+    flexDirection:'row',
     borderWidth:1,
-    
+    marginBottom:15,
+    padding:15,
+    marginHorizontal:40,
   }
   
 });
