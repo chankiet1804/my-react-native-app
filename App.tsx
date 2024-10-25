@@ -8,6 +8,10 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import { OPENSAN_REGULAR } from "./utils/const";
 
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
+
 SplashScreen.preventAutoHideAsync();
 
 const App = () => {
@@ -25,12 +29,20 @@ const App = () => {
         return null;
     }
 
+    const Stack = createNativeStackNavigator();
+
     return (
-        <View>
-            <HomeScreen />
-            <DetailScreen />
-            <AboutScreen />
-        </View>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen 
+              name="Home" 
+              component={HomeScreen} 
+              options={{title: 'Trang chủ'}}
+            />
+            <Stack.Screen name="details" component={DetailScreen} />
+            <Stack.Screen name="about" component={AboutScreen} />
+          </Stack.Navigator>
+        </NavigationContainer>
     )
 }
 
