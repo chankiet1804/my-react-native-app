@@ -39,7 +39,10 @@ const App = () => {
               component={HomeScreen} 
               options={{title: 'Trang chủ'}}
             />
-            <Stack.Screen name="details" component={DetailScreen} />
+            <Stack.Screen 
+              name="details" 
+              component={DetailScreen}
+              options={{title: 'Chi tiết reiview'}} />
             <Stack.Screen name="about" component={AboutScreen} />
           </Stack.Navigator>
         </NavigationContainer>
