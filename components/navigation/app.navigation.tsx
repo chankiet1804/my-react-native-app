@@ -9,14 +9,16 @@ const HomeLayout = () => {
     const Stack = createNativeStackNavigator<RootStackParamList>();
 
     return (
-        <Stack.Navigator>
+        <Stack.Navigator
+            screenOptions={{headerShown:false}}
+        >
             <Stack.Screen
                 name="home"
                 component={HomeScreen}
                 options={{ title: 'Trang Chủ' }}
             />
             <Stack.Screen
-                name="details"
+                name="details" 
                 component={DetailScreen}
                 options={{ title: 'Chi tiết Review' }}
             />

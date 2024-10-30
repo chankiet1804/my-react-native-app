@@ -1,6 +1,8 @@
 import { useNavigation,NavigationProp } from "@react-navigation/native";
 import { useState } from "react";
-import { Button, FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native"
+import { Button, FlatList, Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native"
+import CreateModal from "./create.modal";
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 interface IReview {
     id: number;
@@ -13,6 +15,9 @@ const styles = StyleSheet.create({
         padding:15,
         backgroundColor:"#ccc",
         margin:15
+    },
+    AddButton: {
+        alignItems: 'center'
     }
 })
 
@@ -24,9 +29,17 @@ const HomeScreen = (props:any) => {
         {id: 2, title:"Node Js", start: 4}
     ]);
 
+    const [modalVisible,setModalVisible] = useState(false);
+
     return (
         <View>
-            <Text style={{ fontSize: 30, paddingTop:20}}> Review list: </Text>
+            <Text style={{ fontSize: 30, paddingTop:20,paddingLeft:10}}> Review list: </Text>           
+            <Pressable 
+                style={styles.AddButton}            
+                onPress={() => setModalVisible(true)}>
+                <Text><MaterialIcons name="add-box" size={50} color="#ccc" /></Text>
+            </Pressable>
+            
             <View>
                 <FlatList
                     data={reviews}
@@ -44,7 +57,9 @@ const HomeScreen = (props:any) => {
                     
                 
             </View>
-            
+            <CreateModal
+            modalVisible={modalVisible}
+            setModalVisible={setModalVisible}/>
         </View>
     )
 }
